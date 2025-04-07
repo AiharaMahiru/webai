@@ -6,8 +6,8 @@ const YunwuImageGenerator = () => {
   
   // FileAPI configuration
   const fileApiConfig = {
-    baseUrl: 'https://api.rwr.ink',
-    apiKey: '1145141919810'
+    baseUrl: 'https://your.link',
+    apiKey: 'your.key'
   };
   
   // State variables
