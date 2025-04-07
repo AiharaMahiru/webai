@@ -1,7 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect, useRef } from 'react';
 
 const YunwuImageGenerator = () => {
-<<<<<<< HEAD
   // Yunwu AI API key (in a production environment, consider more secure storage)
   const apiKey = "sk-b5FukpWMw6BpXkmyMAZ3WZh8ICx6egw0W2UjpGne8yN14eWB";
   
@@ -9,15 +8,6 @@ const YunwuImageGenerator = () => {
   const fileApiConfig = {
     baseUrl: 'https://api.rwr.ink',
     apiKey: '1145141919810'
-=======
-  // 内嵌API密钥（生产环境应考虑更安全的方式存储）
-  const apiKey = "sk-b5FukpWMw6BpXkmyMAZ3WZh8ICx6egw0W2UjpGne8yN14eWB";
-  
-  // 服务器配置
-  const serverConfig = {
-    uploadPath: '/www/wwwroot/rwr.ink/s3',
-    imageBaseUrl: 'https://rwr.ink/s3'
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
   };
   
   // State variables
@@ -29,11 +19,7 @@ const YunwuImageGenerator = () => {
   const [progressUpdates, setProgressUpdates] = useState<string[]>([]);
   const [progressPercent, setProgressPercent] = useState<number>(0);
   const [imageUrl, setImageUrl] = useState<string>('');
-<<<<<<< HEAD
   const [savedImageUrl, setSavedImageUrl] = useState<string>('');
-=======
-  const [savedImageName, setSavedImageName] = useState<string>('');
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
   const [showApiDetails, setShowApiDetails] = useState<boolean>(false);
   const [temperature, setTemperature] = useState<string>('0.7');
   const [maxTokens, setMaxTokens] = useState<string>('1024');
@@ -97,11 +83,7 @@ const YunwuImageGenerator = () => {
     return { updates, imgUrl, percent };
   };
 
-<<<<<<< HEAD
   // Function to handle image upload using FileAPI
-=======
-  // Function to handle image upload
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) {
       return;
@@ -113,7 +95,6 @@ const YunwuImageGenerator = () => {
     try {
       const file = e.target.files[0];
       const formData = new FormData();
-<<<<<<< HEAD
       formData.append('file', file);
       
       // Send request to FileAPI
@@ -122,13 +103,6 @@ const YunwuImageGenerator = () => {
         headers: {
           'X-API-Key': fileApiConfig.apiKey
         },
-=======
-      formData.append('image', file);
-      
-      // 发送请求到后端API保存图片
-      const response = await fetch('/api/upload', {
-        method: 'POST',
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
         body: formData
       });
       
@@ -137,7 +111,6 @@ const YunwuImageGenerator = () => {
       }
       
       const result = await response.json();
-<<<<<<< HEAD
       
       // Handle the response
       if (result.file && result.file.id) {
@@ -157,38 +130,18 @@ const YunwuImageGenerator = () => {
       } else {
         throw new Error('上传成功但未返回有效的文件信息');
       }
-=======
-      const newImageUrl = `${serverConfig.imageBaseUrl}/${result.filename}`;
-      
-      // 添加到上传图片列表
-      setUploadedImages(prev => [...prev, newImageUrl]);
-      setSelectedImage(newImageUrl);
-      
-      // 更新提示词以包含图片
-      if (prompt) {
-        setPrompt(`${prompt}\n参考图片: ${newImageUrl}`);
-      } else {
-        setPrompt(`参考图片: ${newImageUrl}`);
-      }
-      
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : '上传图片时出错';
       setError(`上传失败: ${errorMessage}`);
     } finally {
       setIsUploading(false);
-<<<<<<< HEAD
       // Reset file input
-=======
-      // 重置文件输入
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
     }
   };
 
-<<<<<<< HEAD
   // Function to save generated image to FileAPI
   const saveGeneratedImage = async (url: string): Promise<string> => {
     try {
@@ -211,20 +164,6 @@ const YunwuImageGenerator = () => {
           'X-API-Key': fileApiConfig.apiKey
         },
         body: formData
-=======
-  // Function to save generated image to server
-  const saveGeneratedImage = async (url: string): Promise<string> => {
-    try {
-      const response = await fetch('/api/save-generated', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          imageUrl: url,
-          savePath: serverConfig.uploadPath
-        })
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
       });
       
       if (!response.ok) {
@@ -232,16 +171,12 @@ const YunwuImageGenerator = () => {
       }
       
       const result = await response.json();
-<<<<<<< HEAD
       
       // Return the file URL
       if (result.file && result.file.id) {
         return `${fileApiConfig.baseUrl}/download/${result.file.id}`;
       }
       return '';
-=======
-      return result.filename;
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
     } catch (err) {
       console.error('保存生成图片失败:', err);
       return '';
@@ -263,11 +198,7 @@ const YunwuImageGenerator = () => {
     setProgressUpdates([]);
     setProgressPercent(0);
     setImageUrl('');
-<<<<<<< HEAD
     setSavedImageUrl('');
-=======
-    setSavedImageName('');
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
 
     try {
       // API endpoint
@@ -316,19 +247,11 @@ const YunwuImageGenerator = () => {
         setProgressPercent(percent);
         setImageUrl(imgUrl);
         
-<<<<<<< HEAD
         // If image is generated, save to FileAPI
         if (imgUrl) {
           const savedUrl = await saveGeneratedImage(imgUrl);
           if (savedUrl) {
             setSavedImageUrl(savedUrl);
-=======
-        // 如果生成了图片，保存到服务器
-        if (imgUrl) {
-          const savedName = await saveGeneratedImage(imgUrl);
-          if (savedName) {
-            setSavedImageName(savedName);
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
           }
         }
       }
@@ -351,17 +274,9 @@ const YunwuImageGenerator = () => {
       const a = document.createElement('a');
       a.href = url;
       
-<<<<<<< HEAD
       // Extract filename from URL
       const filenameMatch = imageUrl.match(/\/([^\/]+)$/);
       const filename = filenameMatch ? filenameMatch[1] : 'generated-image.png';
-=======
-      // Use saved name if available, otherwise extract from URL
-      const filename = savedImageName || (() => {
-        const filenameMatch = imageUrl.match(/\/([^\/]+)$/);
-        return filenameMatch ? filenameMatch[1] : 'generated-image.png';
-      })();
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
       
       a.download = filename;
       document.body.appendChild(a);
@@ -555,15 +470,9 @@ const YunwuImageGenerator = () => {
               </a>
             </div>
             
-<<<<<<< HEAD
             {savedImageUrl && (
               <div className="mt-3 text-sm text-gray-600">
                 图片已保存到服务器: {savedImageUrl}
-=======
-            {savedImageName && (
-              <div className="mt-3 text-sm text-gray-600">
-                图片已保存到服务器: {`${serverConfig.imageBaseUrl}/${savedImageName}`}
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
               </div>
             )}
           </div>
@@ -597,8 +506,4 @@ const YunwuImageGenerator = () => {
   );
 };
 
-<<<<<<< HEAD
 export default YunwuImageGenerator;
-=======
-export default YunwuImageGenerator;
->>>>>>> 58a083d19b9b25789316bb946c526bbc23bfb97a
