@@ -1,4 +1,6 @@
+import React from 'react';
 import YunwuImageGenerator from './YunwuImageGenerator';
+import './App.css';
 
 function App() {
   return (
